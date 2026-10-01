@@ -495,7 +495,21 @@ input::placeholder, textarea::placeholder { color: #555; }
   padding: 9px 2px; border-bottom: 1px solid #21262d; cursor: pointer;
 }
 .client-row:last-child { border-bottom: none; }
+.client-row.selected { border-bottom: none; }
 .client-row:hover { background: #1c2128; }
 .client-row.selected { background: #0d2d1a; }
 .client-name { font-weight: 600; }
 .client-amt  { color: #3fb950; font-weight: 600; }
+
+/* Per-project spend, nested under an expanded client row */
+.project-breakdown {
+  padding: 2px 2px 8px 18px;
+  border-bottom: 1px solid #21262d;
+}
+.project-breakdown:last-child { border-bottom: none; }
+.project-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; font-size: 13px;
+}
+.project-name { color: #c9d1d9; }
+.project-amt  { color: #58a6ff; font-weight: 600; }

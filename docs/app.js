@@ -93,11 +93,28 @@ function renderSummary() {
     .sort((a, b) => b.amt - a.amt);
 
   const wrap = document.getElementById('client-breakdown');
-  wrap.innerHTML = byClient.map(({ client, amt }) => `
-    <div class="client-row${clientFilter === client ? ' selected' : ''}" data-client="${esc(client)}">
+  wrap.innerHTML = byClient.map(({ client, amt }) => {
+    const isOpen = clientFilter === client;
+    // Expanded client shows its own projects' spend right underneath —
+    // same sum-by-filter logic as the client total, just one level deeper
+    // (Emmett, 2026-10-01: "show the dropdown of categories within the
+    // client and the spend there" when clicked from this list).
+    const projectRows = isOpen
+      ? CLIENT_PROJECTS[client].map(project => {
+          const pAmt = sum(rows.filter(r => r.client === client && r.project === project));
+          return `<div class="project-row">
+            <span class="project-name">${esc(project)}</span>
+            <span class="project-amt">${fmt(pAmt)}</span>
+          </div>`;
+        }).join('')
+      : '';
+    return `
+    <div class="client-row${isOpen ? ' selected' : ''}" data-client="${esc(client)}">
       <span class="client-name">${esc(client)}</span>
       <span class="client-amt">${fmt(amt)}</span>
-    </div>`).join('');
+    </div>
+    ${isOpen ? `<div class="project-breakdown">${projectRows}</div>` : ''}`;
+  }).join('');
 
   wrap.querySelectorAll('.client-row').forEach(el =>
     el.addEventListener('click', () => {
