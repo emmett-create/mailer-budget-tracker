@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mailer Project Budget Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <span class="logo">Agency 8</span>
+        <span class="logo-sub">Mailer Project Budget Tracker</span>
+      </div>
+      <button class="btn-add" id="btn-add-entry">+ Add Entry</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Total -->
+    <div class="budget-card">
+      <div class="budget-top">
+        <div>
+          <span class="budget-num" id="total-spent">$0</span>
+          <span class="budget-of">total spent</span>
+        </div>
+        <span class="budget-rem" id="total-count">0 entries</span>
+      </div>
+    </div>
+
+    <!-- Per-client breakdown -->
+    <div class="budget-card">
+      <div style="font-weight:700;margin-bottom:8px">By Client <span style="font-weight:400;color:#8b949e;font-size:12px">(click to filter the list below)</span></div>
+      <div class="client-breakdown" id="client-breakdown"></div>
+    </div>
+
+    <!-- Active filter banner -->
+    <div class="filter-banner hidden" id="filter-banner">
+      Showing: <strong id="filter-banner-label"></strong>
+      <button class="filter-clear" id="filter-clear">✕ Clear filter</button>
+    </div>
+
+    <div class="toolbar">
+      <input type="search" id="search-input" class="search-box" placeholder="Search client, project, description…">
+    </div>
+
+    <div class="table-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th class="sh" data-col="date">Date</th>
+            <th class="sh" data-col="client">Client</th>
+            <th class="sh" data-col="project">Project</th>
+            <th class="sh" data-col="amount">Amount</th>
+            <th>Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="entries-tbody">
+          <tr><td colspan="6" class="empty-cell">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Add/Edit Entry Modal -->
+  <div class="overlay hidden" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-hdr">
+        <h3 id="modal-title">Add Entry</h3>
+        <button class="modal-x" id="modal-close">✕</button>
+      </div>
+      <form id="entry-form">
+        <div class="fld">
+          <label>Client</label>
+          <select id="f-client" required></select>
+        </div>
+        <div class="fld">
+          <label>Project</label>
+          <select id="f-project" required disabled>
+            <option value="">— select client first —</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Date</label>
+          <input type="date" id="f-date" required>
+        </div>
+        <div class="fld">
+          <label>Amount ($)</label>
+          <input type="number" id="f-amount" min="0" step="0.01" required placeholder="0.00">
+        </div>
+        <div class="fld">
+          <label>Description <span style="font-weight:400;text-transform:none;font-size:10px">(optional)</span></label>
+          <input type="text" id="f-description" placeholder="e.g. Print + postage, wave 2">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-sec" id="btn-cancel">Cancel</button>
+          <button type="submit" class="btn-pri" id="btn-submit">Add Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete confirm -->
+  <div class="overlay hidden" id="delete-overlay">
+    <div class="modal modal-sm">
+      <div class="modal-hdr"><h3>Delete this entry?</h3></div>
+      <p style="color:#8b949e;font-size:13px;margin-bottom:20px">This cannot be undone.</p>
+      <div class="modal-footer">
+        <button class="btn-sec" id="delete-cancel">Cancel</button>
+        <button class="btn-danger" id="delete-confirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
